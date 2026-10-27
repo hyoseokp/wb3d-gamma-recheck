@@ -1,0 +1,14 @@
+{
+ "mock": "mock_g1.0_k0_seed1100",
+ "model": "geometric",
+ "elapsed_s": 8771.2,
+ "median": 0.596268383510868,
+ "ci68": [
+  0.5244319459615532,
+  0.6786388832695681
+ ],
+ "P_gamma_gt_1": 0.0,
+ "r_hat": 1.03,
+ "ess_bulk": 145.0,
+ "divergences": 0
+}

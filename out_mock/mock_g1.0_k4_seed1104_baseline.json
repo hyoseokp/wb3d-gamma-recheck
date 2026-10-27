@@ -1,0 +1,14 @@
+{
+ "mock": "mock_g1.0_k4_seed1104",
+ "model": "baseline",
+ "elapsed_s": 11479.8,
+ "median": 0.8667590824584308,
+ "ci68": [
+  0.7669041393629152,
+  0.9922890566713288
+ ],
+ "P_gamma_gt_1": 0.147,
+ "r_hat": 1.02,
+ "ess_bulk": 441.0,
+ "divergences": 0
+}
