@@ -101,6 +101,7 @@ plt.close(fig)
 # Figure 4: real data with a different projected-separation error (Eq. 13)
 RERR = [("original: max(0.05 r, σ_d)", "188%", "out/gamma_orig_{k}"),
         ("5% of r", "5%", "out_rerr/gamma_f5_{k}"),
+        ("1% of r", "1%", "out_rerr/gamma_f1_{k}"),
         ("0.1% of r", "0.1%", "out_rerr/gamma_f01_{k}")]
 rows, grey = [], []
 for kind in ("baseline", "geometric"):
@@ -113,7 +114,7 @@ for kind in ("baseline", "geometric"):
                     + [f"{c:.2f}" for c in chains] + [f"{r['ess_bulk']:.0f}", "yes" if ok else "no"])
 cols = ["model", "σ (Eq. 13)", "γ median [68%]", "chain 1", "chain 2", "chain 3", "chain 4",
         "ESS", "converged"]
-fig, ax = plt.subplots(figsize=(12, 3.2)); ax.axis("off")
+fig, ax = plt.subplots(figsize=(12, 4.0)); ax.axis("off")
 t = ax.table(cellText=rows, colLabels=cols, loc="center", cellLoc="center",
              colWidths=[0.1, 0.2, 0.17, 0.075, 0.075, 0.075, 0.075, 0.06, 0.09])
 t.auto_set_font_size(False); t.set_fontsize(10); t.scale(1, 1.8)

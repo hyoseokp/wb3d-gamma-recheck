@@ -1,6 +1,6 @@
 \begin{table}
 \centering
-\caption{Posterior median of $\gamma$ in each of four independent MCMC chains, when the public code of Saad \& Ting (2026) is fitted to the 36 observed pairs and only the error $\sigma_{r_\perp}$ of the projected-separation likelihood (their Eq.~13) is changed. The original code sets $\sigma_{r_\perp}=\max(0.05\,r_\perp,\sigma_d)$, where $\sigma_d$ is the error of the distance, so the median $\sigma_{r_\perp}/r_\perp$ is 188\%. A fit is counted as converged when the four chains agree, i.e.\ $\hat{R}\le 1.03$ and the effective sample size is at least 100. The effective sample size (ESS) is the number of independent draws that the correlated MCMC draws are worth: the converged fits have ESS $=233$--849 out of 12\,000 draws. Fits shown in grey did not converge ($\hat{R}=1.5$--1.8, ESS $=6$--7): the chains settle on different values, so their results are not reliable. All other settings follow the original code (3000 draws and 2000 tuning steps per chain, target acceptance 0.98, seed 123, nutpie sampler).}
+\caption{Posterior median of $\gamma$ in each of four independent MCMC chains, when the public code of Saad \& Ting (2026) is fitted to the 36 observed pairs and only the error $\sigma_{r_\perp}$ of the projected-separation likelihood (their Eq.~13) is changed. The original code sets $\sigma_{r_\perp}=\max(0.05\,r_\perp,\sigma_d)$, where $\sigma_d$ is the error of the distance, so the median $\sigma_{r_\perp}/r_\perp$ is 188\%. A fit is counted as converged when the four chains agree, i.e.\ $\hat{R}\le 1.03$ and the effective sample size is at least 100. The effective sample size (ESS) is the number of independent draws that the correlated MCMC draws are worth: the converged fits have ESS $=233$--849 out of 12\,000 draws. Fits shown in grey do not meet this criterion ($\hat{R}=1.06$--1.77, ESS $=6$--92). All other settings follow the original code (3000 draws and 2000 tuning steps per chain, target acceptance 0.98, seed 123, nutpie sampler).}
 \label{tab:chains}
 \begin{tabular}{l cccc c}
 \toprule
@@ -9,11 +9,13 @@ $\sigma_{r_\perp}/r_\perp$ & Chain 1 & Chain 2 & Chain 3 & Chain 4 & Status \\
 \multicolumn{6}{l}{\textit{baseline}} \\
 \quad original code (188\%) & 1.03 & 1.00 & 1.04 & 1.01 & converged \\
 \quad 5\% & 1.72 & 1.73 & 1.74 & 1.72 & converged \\
+\quad 1\% & \textcolor{gray}{1.76} & \textcolor{gray}{1.73} & \textcolor{gray}{1.71} & \textcolor{gray}{1.62} & \textcolor{gray}{not converged} \\
 \quad 0.1\% & \textcolor{gray}{1.51} & \textcolor{gray}{1.63} & \textcolor{gray}{1.48} & \textcolor{gray}{1.94} & \textcolor{gray}{not converged} \\
 \midrule
 \multicolumn{6}{l}{\textit{geometric}} \\
 \quad original code (188\%) & 1.61 & 1.60 & 1.54 & 1.66 & converged \\
 \quad 5\% & 1.44 & 1.44 & 1.49 & 1.45 & converged \\
+\quad 1\% & 1.44 & 1.39 & 1.44 & 1.42 & converged \\
 \quad 0.1\% & \textcolor{gray}{1.72} & \textcolor{gray}{1.65} & \textcolor{gray}{1.15} & \textcolor{gray}{1.51} & \textcolor{gray}{not converged} \\
 \bottomrule
 \end{tabular}

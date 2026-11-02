@@ -8,6 +8,7 @@ W = os.path.dirname(os.path.abspath(__file__))
 
 V = [("orig", r"original code (188\%)", W + "/out/gamma_orig_{k}"),
      ("f5", r"5\%", W + "/out_rerr/gamma_f5_{k}"),
+     ("f1", r"1\%", W + "/out_rerr/gamma_f1_{k}"),
      ("f01", r"0.1\%", W + "/out_rerr/gamma_f01_{k}")]
 
 lines = []
@@ -40,8 +41,7 @@ caption = (r"Posterior median of $\gamma$ in each of four independent MCMC chain
            r"A fit is counted as converged when the four chains agree, i.e.\ $\hat{R}\le 1.03$ and the effective sample "
            r"size is at least 100. The effective sample size (ESS) is the number of independent draws that the "
            r"correlated MCMC draws are worth: the converged fits have ESS $=233$--849 out of 12\,000 draws. "
-           r"Fits shown in grey did not converge ($\hat{R}=1.5$--1.8, ESS $=6$--7): the chains settle on different "
-           r"values, so their results are not reliable. "
+           r"Fits shown in grey do not meet this criterion ($\hat{R}=1.06$--1.77, ESS $=6$--92). "
            r"All other settings follow the original code (3000 draws and 2000 tuning steps per chain, target "
            r"acceptance 0.98, seed 123, nutpie sampler).")
 

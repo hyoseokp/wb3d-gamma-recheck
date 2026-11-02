@@ -5,9 +5,9 @@ Re-running the public code of Saad & Ting (2026), *No Gravitational Anomaly in W
 1. **Mock test with the geometric model.** The paper's Appendix C fits its Newtonian synthetic catalogues with the baseline model only. Here the same catalogues are rebuilt and also fitted with the geometric de-projection model.
 2. **Masses × 1.10.** Every stellar mass in the input is multiplied by 1.10 and the analysis is rerun.
 3. **Velocities × 1.10.** The observed relative velocities (RV difference and proper-motion difference) are multiplied by 1.10, with masses unchanged.
-4. **Error of the projected separation.** The real data are refitted with only the error of the projected-separation likelihood (Eq. 13 of the paper) changed, from the code's value (median 188% of the separation) to 5% (the value used in the mocks) and to 0.1%.
+4. **Error of the projected separation.** The real data are refitted with only the error of the projected-separation likelihood (Eq. 13 of the paper) changed, from the code's value (median 188% of the separation) to 5% (the value used in the mocks), 1% and 0.1%.
 
-> **요약 (Korean).** Saad & Ting 공개 코드를 그대로 사용했습니다. (1) 논문 Appendix C의 Newton mock catalogue를 저자 seed로 다시 만들고 geometric 모델로도 적합했습니다. 결과는 1.5가 아니라 평균 0.79입니다. (2) 질량을 1.10배 하면 γ는 정확히 1/1.10배가 됩니다. (3) 속도를 1.10배 하면 baseline γ는 1.25배가 됩니다. (4) 식 13의 투영거리 오차를 코드 값(중앙값 188%)에서 mock과 같은 5%로 바꾸면 baseline γ는 1.02에서 1.73으로 올라갑니다. 0.1%에서는 MCMC가 수렴하지 않습니다.
+> **요약 (Korean).** Saad & Ting 공개 코드를 그대로 사용했습니다. (1) 논문 Appendix C의 Newton mock catalogue를 저자 seed로 다시 만들고 geometric 모델로도 적합했습니다. 결과는 1.5가 아니라 평균 0.79입니다. (2) 질량을 1.10배 하면 γ는 정확히 1/1.10배가 됩니다. (3) 속도를 1.10배 하면 baseline γ는 1.25배가 됩니다. (4) 식 13의 투영거리 오차를 코드 값(중앙값 188%)에서 mock과 같은 5%로 바꾸면 baseline γ는 1.02에서 1.73으로, 1%로 바꾸면 1.70으로 올라갑니다. 0.1%에서는 MCMC가 수렴하지 않습니다.
 
 ## Results
 
@@ -46,6 +46,7 @@ Re-running the public code of Saad & Ting (2026), *No Gravitational Anomaly in W
 The projected-separation likelihood is `Normal(r_proj_model, r_err)` with `r_err = max(0.05·s, σ_d)`, where `σ_d` is the distance error (see Notes). For these 36 pairs `r_err` is 188% of `s` (median), so this term hardly constrains the orbit. Here only `r_err` is changed; the jitter terms, the 40 m/s RV systematic, the priors and the sampler settings are as in the original code.
 
 - **5% of s (the mock value).** Both fits converge (r̂ 1.01, ESS ≥ 700). The baseline γ rises from 1.02 to **1.73 [1.51, 1.97]**, with P(γ > 1) = 1.00. The geometric γ goes from 1.60 to 1.45.
+- **1% of s.** The baseline γ is 1.70 [1.49, 1.95], with chain medians 1.62 to 1.76; r̂ 1.06 and ESS 92 fall just short of the convergence criterion below (grey row). The geometric γ is 1.42 [1.24, 1.62] (r̂ 1.02, ESS 292).
 - **0.1% of s.** Neither fit converges with the original sampler settings (r̂ 1.53 and 1.77, ESS 6 to 7): the four chains settle on different values (grey rows), so these numbers should not be used.
 - The baseline γ ≈ 1 of the paper therefore depends on the large separation error in the code. With the error set to the value used in the mock test, the baseline fit is no longer consistent with γ = 1.
 - **Convergence.** A fit counts as converged when the four independent chains agree: r̂ ≤ 1.03 and effective sample size (ESS, the number of independent draws the 12 000 correlated MCMC draws are worth) ≥ 100.
@@ -98,7 +99,7 @@ python run_mock.py mocks/mock_g1.0_k0_seed1100.csv geometric
 python run_rerr.py f5 baseline
 ```
 
-`run_rerr.py <f5|f01> <baseline|geometric>` sets `r_err` to 5% or 0.1% of `s` and writes `out_rerr/gamma_<mode>_<model>.json` and `.npy`.
+`run_rerr.py <f5|f1|f01> <baseline|geometric>` sets `r_err` to 5%, 1% or 0.1% of `s` and writes `out_rerr/gamma_<mode>_<model>.json` and `.npy`. The script also stores per-pair posterior medians of the model projected separation and 3D separation over `s`; these fields are present in the 1% files, which were run after this was added.
 
 **Figures and LaTeX table:**
 
@@ -123,7 +124,7 @@ python make_chain_table_tex.py
 | `gen_mocks.py` | Rebuilds the Appendix C synthetic catalogues with `run_injection.simulate`. |
 | `run_mock.py` | Fits one mock catalogue with the original model and the settings recorded in `injection_recovery.json`. |
 | `mocks/` | The 10 regenerated catalogues (γ_true = 1.0 and 1.6, five each), in the code's prepared SI-unit format. |
-| `run_rerr.py` | Refits the real data with the projected-separation error set to 5% or 0.1% of `s`. |
+| `run_rerr.py` | Refits the real data with the projected-separation error set to 5%, 1% or 0.1% of `s`. |
 | `out/`, `out_mock/`, `out_rerr/` | Summaries (`.json`: median, 68% and 95% intervals, P(γ>1), r̂, ESS, divergences) and posterior samples (`.npy`, 4 chains × 3000 or 1500 draws in chain order). |
 | `make_figures.py` | Draws the figures in `figures/` from the saved results. |
 | `make_chain_table_tex.py`, `tables/` | Writes the per-chain table for the projected-separation test as LaTeX (`chain_table.tex` for `\input`, `chain_table_standalone.tex` to compile on its own). |
