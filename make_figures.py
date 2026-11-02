@@ -97,4 +97,34 @@ forest(ax, [("original data", [("baseline", real("orig", "baseline")), ("geometr
        "Real 36 pairs: γ scales as 1/M and roughly as v²")
 fig.savefig(f"{FIG}/fig3_real_data_scaling.png", dpi=200, bbox_inches="tight")
 plt.close(fig)
+
+# Figure 4: real data with a different projected-separation error (Eq. 13)
+RERR = [("original: max(0.05 r, σ_d)", "188%", "out/gamma_orig_{k}"),
+        ("5% of r", "5%", "out_rerr/gamma_f5_{k}"),
+        ("0.1% of r", "0.1%", "out_rerr/gamma_f01_{k}")]
+rows, grey = [], []
+for kind in ("baseline", "geometric"):
+    for lab, frac, p in RERR:
+        r = load(f"{W}/{p.format(k=kind)}.json")
+        chains = np.median(np.load(f"{W}/{p.format(k=kind)}.npy").reshape(4, -1), axis=1)
+        ok = r["r_hat"] <= 1.03 and r["ess_bulk"] >= 100
+        grey.append(not ok)
+        rows.append([kind, lab, f"{r['median']:.2f}  [{r['ci68'][0]:.2f}, {r['ci68'][1]:.2f}]"]
+                    + [f"{c:.2f}" for c in chains] + [f"{r['ess_bulk']:.0f}", "yes" if ok else "no"])
+cols = ["model", "σ (Eq. 13)", "γ median [68%]", "chain 1", "chain 2", "chain 3", "chain 4",
+        "ESS", "converged"]
+fig, ax = plt.subplots(figsize=(12, 3.2)); ax.axis("off")
+t = ax.table(cellText=rows, colLabels=cols, loc="center", cellLoc="center",
+             colWidths=[0.1, 0.2, 0.17, 0.075, 0.075, 0.075, 0.075, 0.06, 0.09])
+t.auto_set_font_size(False); t.set_fontsize(10); t.scale(1, 1.8)
+for (r, c), cell in t.get_celld().items():
+    cell.set_edgecolor("#bbbbbb")
+    if r == 0:
+        cell.set_facecolor("#eef2f8"); cell.set_text_props(weight="bold")
+    elif grey[r - 1]:
+        cell.get_text().set_color("#9a9a9a")
+ax.set_title("Real 36 pairs: γ when only the error of the projected separation (Eq. 13) is changed",
+             fontsize=12, weight="bold")
+fig.savefig(f"{FIG}/fig4_rerr_table.png", dpi=200, bbox_inches="tight")
+plt.close(fig)
 print("figures written to", FIG)
